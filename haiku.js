@@ -1,5 +1,5 @@
 var fs = require('fs');
-var cmudictFile = fs.readFileSync('./cmudict.txt').toString();
+var cmudictFile = fs.readFileSync('./cmudict.txt');
 
 function formatData(data) {
 	var lines = data.toString().split('\n');
@@ -21,32 +21,33 @@ function formatData(data) {
 	return parsedlines;
 }
 
-var parsedcmu = formatData(cmudictFile);
-console.log(parsedcmu['HELLO'].numsyllables());
-
-
-/*
-var syllablesArr = [];
-
-for (var key in parsedcmu) {
-	var currentword = key;
-	var currentindex = parsedcmu[key].numsyllables();
-	if (syllablesArr[currentindex] === undefined) {
-		syllablesArr[currentindex] = [];
-		syllablesArr[currentindex].push(currentword);
-	} else {
-		syllablesArr[currentindex].push(currentword);
+function createSyllables(parseddata) {
+	var result = [];
+	for (var key in parseddata) {
+		var currentword = key;
+		var currentindex = parseddata[key].numsyllables();
+		if (result[currentindex] === undefined) {
+			result[currentindex] = [];
+			result[currentindex].push(currentword);
+		} else {
+			result[currentindex].push(currentword);
+		}
 	}
+	return result;
 }
-
-console.log(syllablesArr);
-*/
-
 
 function createHaiku(structure, syllablesArr) {
-	console.log('This should log a haiku with the structure [' + structure + ']');
+	var result = structure.map(function(innerArray) {
+		return innerArray.map(function(num) {
+			return syllablesArr[num][Math.floor(Math.random(0,1)*syllablesArr[num].length)];
+		}).join(' ');
+	});
+	console.log(result.join('\n'));
 }
+
+var syllablesArr = createSyllables(formatData(cmudictFile));
 
 module.exports = {
 	createHaiku: createHaiku,
+	syllablesArr: syllablesArr
 }
