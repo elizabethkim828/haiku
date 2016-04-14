@@ -106,7 +106,7 @@ function createHaikuFromBook(structure, dictionary, book) {
 		});
 	});
 	
-	console.log(haiku.join('\n'));
+	//console.log(haiku.join('\n'));
 }
 
 
