@@ -1,6 +1,8 @@
+// When running this module, add a book as one of the arguments in the terminal command line. Ex. $ node haiku_generator doriangray.txt
+
 var haiku = require('./haiku.js');
 var fs = require('fs');
-var currbook = fs.readFileSync('./dollhouse.txt')
+var currbook = fs.readFileSync('./' + process.argv[2]);
 
 console.log('');
 console.log('***Haiku from Dictionary***');
