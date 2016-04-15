@@ -77,43 +77,34 @@ function createHaikuFromBook(structure, dictionary, book) {
 			i = i || 1;
 			if (count === n) {
 				var result = phrasearray.join(" ");
-				//console.log(result); // WHY DOES "console.log(result)" RETURN SUCCESSFULLY HERE BUT "RESULT" IS UNDEFINED BELOW?
-				return result; // WHY DOES THIS RETURN UNDEFINED WHEN I RUN "console.log(haiku.join('\n'))" BELOW?
+				return result;
 			} else if (count < n) {
 				nextword = book[x+i].replace(regex, "");
 				if (dictionary[nextword] === undefined) { // Edge case when there are no more words left or dictionary doesn't contain word.
 					initialize();
-					return rec(firstword); //WE HAVE TO RETURN HERE
+					return rec(firstword);
 				} else {
 					phrasearray.push(nextword);
 					count += dictionary[nextword].numsyllables();
 					i++;
-					return rec(nextword, i); //AND WE HAVE TO RETURN HERE
+					return rec(nextword, i);	
 				}
 			} else {
 				initialize();
-				return rec(firstword); //AND HERE!
+				return rec(firstword);
 			}
 		}
-
-		//Karen:
-		//The reason we must return is because when you return 'result' in your base case, you are only returning 'result'
-		//back to the level / stack frame that called it.
-		//
-		//Remember, when we use recursion we are creating a stack of function calls. You were only returning from the very last one.
-		//But we still have to return that value all the way back to your original call!!
-
+		
 		initialize();
-		return rec(firstword); //Now your 'results' is returned all the way back up the stack
-    //console.log(finalResult); //and you can see it here!
+		return rec(firstword);
 	}
-
+	
 	var haiku = structure.map(function(innerArray) {
 		return innerArray.map(function(n) {
-			return n + ": " + haikuLine(n, book); // WHY DOES haikuLine(n, book) RETURN UNDEFINED?
+			return haikuLine(n, book); 
 		});
 	});
-
+	
 	console.log(haiku.join('\n'));
 }
 
